@@ -37,10 +37,8 @@ python3 -m streamstats analyze file1.csv file2.csv --format csv --output report.
 
 ### Help
 ```bash
-python3 -m toolkit --help 
-#          Или
-python3 -m toolkit
-#Выведется меню помощи
+python3 -m streamstats --help 
+# Выведется справка по использованию CLI
 ```
 
 ## Структура
