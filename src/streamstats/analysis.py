@@ -1,5 +1,5 @@
 from collections import Counter
-from typing import Iterable, List, Optional
+
 from .models import LogEvent
 
 
@@ -10,8 +10,8 @@ class LogAnalyzer:
     self.levels_count: Counter = Counter()
     self.sources_count: Counter = Counter()
     self.error_sources_count: Counter = Counter()
-    self.min_timestamp: Optional[str] = None
-    self.max_timestamp: Optional[str] = None
+    self.min_timestamp: str | None = None
+    self.max_timestamp: str | None = None
     self.skipped_lines = 0
 
   def update(self, event: LogEvent):
@@ -35,11 +35,9 @@ class LogAnalyzer:
     self.error_sources_count.update(other.error_sources_count)
     self.skipped_lines += other.skipped_lines
 
-    if other.min_timestamp:
-      if self.min_timestamp is None or other.min_timestamp < self.min_timestamp:
+    if other.min_timestamp and (self.min_timestamp is None or other.min_timestamp < self.min_timestamp):
         self.min_timestamp = other.min_timestamp
-    if other.max_timestamp:
-      if self.max_timestamp is None or other.max_timestamp > self.max_timestamp:
+    if other.max_timestamp and (self.max_timestamp is None or other.max_timestamp > self.max_timestamp):
         self.max_timestamp = other.max_timestamp
 
   def to_dict(self) -> dict:

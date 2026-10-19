@@ -1,5 +1,6 @@
 import json
 from typing import TextIO
+
 from .analysis import LogAnalyzer
 
 

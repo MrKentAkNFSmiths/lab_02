@@ -1,7 +1,8 @@
 import csv
 import json
+from collections.abc import Iterator
 from datetime import datetime
-from typing import Iterator, TextIO
+from typing import TextIO
 
 from .errors import InvalidEventError, InvalidTimestampError, UnsupportedFormatError
 from .models import VALID_LEVELS, LogEvent
@@ -56,8 +57,7 @@ def parse_csv_stream(file_obj: TextIO) -> Iterator[LogEvent]:
       raise InvalidEventError(f"Ошибка чтения строки CSV: {e}") from e
 
 
-def parse_jsonl_stream(file_obj: TextIO) -> Iterator[LogEvent]:
-  """Потоковый парсер JSONL"""
+def parse_jsonl_stream(file_obj) -> Iterator[LogEvent]:
   for line_num, line in enumerate(file_obj, start=1):
     stripped = line.strip()
     if not stripped:
@@ -65,9 +65,7 @@ def parse_jsonl_stream(file_obj: TextIO) -> Iterator[LogEvent]:
     try:
       data = json.loads(stripped)
     except json.JSONDecodeError as e:
-      raise InvalidEventError(
-          f"Ошибка JSON на строке {line_num}: {e.msg}"
-      ) from e
+      raise InvalidEventError(f"Ошибка JSON на строке {line_num}: {e.msg}") from e
 
     if not isinstance(data, dict):
       raise InvalidEventError(f"Строка {line_num} должна быть JSON-объектом")
@@ -78,7 +76,7 @@ def parse_jsonl_stream(file_obj: TextIO) -> Iterator[LogEvent]:
           f"Строка {line_num} пропустила обязательные поля: {required - data.keys()}"
       )
 
-    yield _parse_event(
+    yield LogEvent.from_raw(
         str(data.get("timestamp", "")),
         str(data.get("level", "")),
         str(data.get("source", "")),
