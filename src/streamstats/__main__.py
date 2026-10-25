@@ -8,8 +8,10 @@ from .errors import StreamStatsError
 from .parser import get_parser
 from .report import write_report
 
-logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
-logger = logging.getLogger("streamstats")
+logging.basicConfig(format="%(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
+
+
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -43,6 +45,8 @@ def main():
         def on_error(line_num: int, err: Exception, current_path: str = input_path):
             analyzer.skipped_lines += 1
             logger.warning(f"Файл {current_path}, строка {line_num}: пропущено ({err})")
+
+
 
         try:
             with open(path, "r", encoding="utf-8") as f:
