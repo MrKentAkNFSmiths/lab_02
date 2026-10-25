@@ -49,7 +49,7 @@ lab_02/
 │       ├── __init__.py
 │       ├── __main__.py     # Точка входа CLI и оркестрация 
 │       ├── models.py       # Модель события и валидация
-│       ├── parsers.py      # Потоковые парсеры CSV и JSONL
+│       ├── parser.py       # Потоковые парсеры CSV и JSONL
 │       ├── analysis.py     # Логика сбора статистики
 │       ├── report.py       # Генерация JSON-отчёта
 │       └── errors.py       # Кастомные исключения
@@ -57,8 +57,4 @@ lab_02/
 │   └── test_streamstats.py # Набор юнит-тестов pytest
 ├── pyproject.toml          # Конфигурация проекта
 └── README.md
-
 ```
-
-
-`

@@ -3,9 +3,15 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+report2.json
+report1.json
+report2.csv
+report.json
 # C extensions
 *.so
-
+.DS_Store
+.idea/
+data/
 # Distribution / packaging
 .Python
 build/
