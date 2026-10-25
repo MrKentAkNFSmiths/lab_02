@@ -4,9 +4,15 @@ import sys
 from pathlib import Path
 
 import pytest
+
 from streamstats.__main__ import main
 from streamstats.analysis import LogAnalyzer
-from streamstats.errors import InvalidEventError, InvalidTimestampError
+from streamstats.errors import (
+    CSVParseError,
+    InvalidEventError,
+    InvalidTimestampError,
+    JSONLParseError,
+)
 from streamstats.models import LogEvent
 from streamstats.parser import parse_csv_stream, parse_jsonl_stream
 
@@ -42,8 +48,27 @@ def test_valid_jsonl_parsing():
 
 def test_empty_file():
     file_obj = io.StringIO("")
-    with pytest.raises(InvalidEventError):
+    with pytest.raises(CSVParseError):
         list(parse_csv_stream(file_obj))
+
+
+def test_csv_parse_error_on_corrupted_row():
+    file_obj = io.StringIO("timestamp,level,source,message\ninvalid_ts,INFO,api,test\n")
+    with pytest.raises(CSVParseError):
+        list(parse_csv_stream(file_obj))
+
+
+def test_jsonl_parse_error_on_bad_json():
+    file_obj = io.StringIO("bad_json_line\n")
+    with pytest.raises(JSONLParseError):
+        list(parse_jsonl_stream(file_obj))
+
+
+def test_jsonl_parse_error_on_missing_fields():
+    file_obj = io.StringIO('{"timestamp": "2026-10-06T10:00:00+00:00"}\n')
+    with pytest.raises(JSONLParseError):
+        list(parse_jsonl_stream(file_obj))
+
 
 
 

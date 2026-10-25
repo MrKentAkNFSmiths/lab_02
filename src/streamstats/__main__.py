@@ -13,28 +13,14 @@ logger = logging.getLogger("streamstats")
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Потоковый анализатор файлов логов (CSV / JSONL)"
-    )
+    parser = argparse.ArgumentParser(description="Потоковый анализатор файлов логов (CSV / JSONL)")
     parser.add_argument("command", choices=["analyze"], help="Команда для выполнения")
     parser.add_argument("inputs", nargs="+", help="Пути к входным файлам (CSV или JSONL)")
-    parser.add_argument(
-        "--format",
-        required=True,
-        choices=["csv", "jsonl"],
-        help="Формат входных данных",
-    )
-    parser.add_argument(
-        "--output",
-        required=True,
-        help="Путь для сохранения JSON-отчёта",
-    )
-    parser.add_argument(
-        "--skip-invalid",
-        action="store_true",
-        help="Пропускать поврежденные строки с записью WARNING",
-    )
+    parser.add_argument("--format", required=True, choices=["csv", "jsonl"], help="Формат входных данных")
+    parser.add_argument("--output", required=True, help="Путь для сохранения JSON-отчёта")
+    parser.add_argument("--skip-invalid", action="store_true", help="Пропускать поврежденные строки с записью WARNING")
     return parser
+
 
 
 def main():

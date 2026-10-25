@@ -16,16 +16,24 @@ ___
 ```bash
 python3 -m venv venv
 source venv/bin/activate 
-pip3 install -e .
+pip3 install -e ".[dev]"
 ```
 
 ## Команды
+
+### Проверка
+
+```bash
+python -m pytest
+ruff check .
+python -m streamstats --help
+```
 
 ### Анализ логов
 
 ```bash
 python3 -m streamstats analyze logs.jsonl --format jsonl --output report.json
-# Создает JSON-отчет по результатам анализа
+# Создает JSON-отчет "report.json" по результатам анализа файла "logs.jsonl"
 ```
 
 ### Анализ нескольких файлов с пропуском ошибок

@@ -29,10 +29,7 @@ class LogAnalyzer:
 
 
     def to_dict(self) -> dict:
-        top_errors = [
-            {"source": src, "count": cnt}
-            for src, cnt in self.error_sources_count.most_common(5)
-        ]
+        top_errors = [{"source": src, "count": cnt} for src, cnt in self.error_sources_count.most_common(5)]
         return {
             "total_events": self.total_events,
             "levels": dict(self.levels_count),

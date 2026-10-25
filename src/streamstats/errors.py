@@ -12,3 +12,11 @@ class InvalidEventError(StreamStatsError):
 
 class InvalidTimestampError(StreamStatsError):
     """Неверная временная метка (не ISO 8601)."""
+
+
+class CSVParseError(InvalidEventError):
+    """Ошибка при парсинге CSV файла."""
+
+
+class JSONLParseError(InvalidEventError):
+    """Ошибка при парсинге JSONL файла."""
